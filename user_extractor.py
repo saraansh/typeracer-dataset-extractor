@@ -18,7 +18,7 @@ para3 = "&rank_start=1&rank_end=100"
 
 page = header + para1 + para2 + para3
 parsed_page = lxml.html.parse(page)
-links = parsed_page.xpath("//a/@href");
+links = parsed_page.xpath("//a/@href")
 
 # Extract usernames and profile links
 
@@ -29,10 +29,11 @@ for link in links:
 		users.append(link[18:])
 		user_links.append(link)
 
-# Saving usernames to user_list
+# Save usernames to user_list
 
 with open('user_list.txt','w+') as f:
 	for user in users:
+		print("Saving... " + user + "\n")
 		f.write(user + "\n")
 
 """
