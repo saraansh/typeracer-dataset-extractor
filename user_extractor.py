@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Mar 10 16:25:01 2017
+Updated on Sun Mar 11 02:53:02 2017
 
 @author: Hopeless
 """
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup as bs
-from http.client import IncompleteRead
+import lxml.html
 
 # Set the parameters to load user list
 
@@ -16,15 +16,13 @@ para1 = "min_races=100&min_texts=100"
 para2 = "&sort=wpm_textbests"
 para3 = "&rank_start=1&rank_end=100"
 
-# Load the page and parse html
+# Load the page and extract profile links
 
-try:
-	page = urlopen(header + para1 + para2 + para3).read()
-except IncompleteRead as e:
-	page = e.partial
+page = header + para1 + para2 + para3
+parsed_page = lxml.html.parse(page)
+links = parsed_page.xpath("//a/@href")
 
-soup = bs(page, "html.parser")
+# Print the links
 
-# Find all profile links
-
-print([tag.attrMap['href'] for tag in soup.findAll('a', {'href': True})])
+for link in links:
+	print(link)
